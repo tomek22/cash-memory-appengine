@@ -1,0 +1,324 @@
+{
+  "extends" : "thirdParty.api",
+  "root" : "https://cash-memory.appspot.com/_ah/api",
+  "name" : "userendpoint",
+  "version" : "v1",
+  "adapter" : {
+    "bns" : "http://cash-memory.appspot.com/_ah/spi",
+    "deadline" : 10.0,
+    "type" : "lily"
+  },
+  "auth" : {
+  },
+  "frontendLimits" : {
+    "rules" : [ ]
+  },
+  "cacheControl" : {
+  },
+  "methods" : {
+    "userendpoint.user.memberships" : {
+      "path" : "user/me/group",
+      "httpMethod" : "GET",
+      "rosyMethod" : "UserEndpoint.listMemberships",
+      "request" : {
+        "parameters" : {
+          "email" : {
+            "required" : true,
+            "type" : "string"
+          }
+        },
+        "body" : "empty"
+      },
+      "response" : {
+        "body" : "autoTemplate(backendResponse)"
+      }
+    },
+    "userendpoint.user.get" : {
+      "path" : "user/me",
+      "httpMethod" : "GET",
+      "rosyMethod" : "UserEndpoint.getMe",
+      "request" : {
+        "parameters" : {
+          "email" : {
+            "required" : true,
+            "type" : "string"
+          }
+        },
+        "body" : "empty"
+      },
+      "response" : {
+        "body" : "autoTemplate(backendResponse)"
+      }
+    },
+    "userendpoint.user.insert" : {
+      "path" : "user",
+      "httpMethod" : "POST",
+      "rosyMethod" : "UserEndpoint.insertUser",
+      "request" : {
+        "parameters" : {
+          "email" : {
+            "required" : true,
+            "type" : "string"
+          },
+          "currency" : {
+            "required" : true,
+            "type" : "string"
+          }
+        },
+        "body" : "empty"
+      },
+      "response" : {
+        "body" : "autoTemplate(backendResponse)"
+      }
+    },
+    "userendpoint.gcm.unregister" : {
+      "path" : "user/me/gcm",
+      "httpMethod" : "DELETE",
+      "rosyMethod" : "UserEndpoint.unregisterGCM",
+      "request" : {
+        "parameters" : {
+          "email" : {
+            "required" : true,
+            "type" : "string"
+          }
+        },
+        "body" : "empty"
+      },
+      "response" : {
+        "body" : "empty"
+      }
+    },
+    "userendpoint.gcm.register" : {
+      "path" : "user/me/gcm",
+      "httpMethod" : "PUT",
+      "rosyMethod" : "UserEndpoint.registerGCM",
+      "request" : {
+        "parameters" : {
+          "devReg" : {
+            "required" : true,
+            "type" : "string"
+          },
+          "email" : {
+            "required" : true,
+            "type" : "string"
+          }
+        },
+        "body" : "empty"
+      },
+      "response" : {
+        "body" : "empty"
+      }
+    }
+  },
+  "descriptor" : {
+    "schemas" : {
+      "User" : {
+        "id" : "User",
+        "type" : "object",
+        "properties" : {
+          "authDomain" : {
+            "type" : "string"
+          },
+          "email" : {
+            "type" : "string"
+          },
+          "federatedIdentity" : {
+            "type" : "string"
+          },
+          "nickname" : {
+            "type" : "string"
+          },
+          "userId" : {
+            "type" : "string"
+          }
+        }
+      },
+      "GroupMembership" : {
+        "id" : "GroupMembership",
+        "type" : "object",
+        "properties" : {
+          "appUser" : {
+            "$ref" : "Key"
+          },
+          "balance" : {
+            "type" : "number"
+          },
+          "dateCreated" : {
+            "type" : "string",
+            "format" : "date-time"
+          },
+          "key" : {
+            "$ref" : "Key"
+          }
+        }
+      },
+      "Key" : {
+        "id" : "Key",
+        "type" : "object",
+        "properties" : {
+          "complete" : {
+            "type" : "boolean"
+          },
+          "id" : {
+            "type" : "string",
+            "format" : "int64"
+          },
+          "kind" : {
+            "type" : "string"
+          },
+          "name" : {
+            "type" : "string"
+          },
+          "namespace" : {
+            "type" : "string"
+          },
+          "parent" : {
+            "$ref" : "Key"
+          }
+        }
+      },
+      "GroupMembershipCollection" : {
+        "id" : "GroupMembershipCollection",
+        "type" : "object",
+        "properties" : {
+          "items" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "GroupMembership"
+            }
+          }
+        }
+      },
+      "AppUser" : {
+        "id" : "AppUser",
+        "type" : "object",
+        "properties" : {
+          "currency" : {
+            "type" : "string"
+          },
+          "dateCreated" : {
+            "type" : "string",
+            "format" : "date-time"
+          },
+          "deviceRegistrationID" : {
+            "type" : "string"
+          },
+          "email" : {
+            "type" : "string"
+          },
+          "expenses" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "Expense"
+            }
+          },
+          "key" : {
+            "$ref" : "Key"
+          }
+        }
+      },
+      "Expense" : {
+        "id" : "Expense",
+        "type" : "object",
+        "properties" : {
+          "amount" : {
+            "type" : "number"
+          },
+          "creator" : {
+            "$ref" : "Key"
+          },
+          "dateCreated" : {
+            "type" : "string",
+            "format" : "date-time"
+          },
+          "history" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "ExpenseState"
+            }
+          },
+          "key" : {
+            "$ref" : "Key"
+          },
+          "name" : {
+            "type" : "string"
+          },
+          "payments" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "Payment"
+            }
+          },
+          "template" : {
+            "$ref" : "Key"
+          }
+        }
+      },
+      "ExpenseState" : {
+        "id" : "ExpenseState",
+        "type" : "object",
+        "properties" : {
+          "creator" : {
+            "$ref" : "Key"
+          },
+          "dateCreated" : {
+            "type" : "string",
+            "format" : "date-time"
+          },
+          "key" : {
+            "$ref" : "Key"
+          },
+          "revoking" : {
+            "type" : "boolean"
+          },
+          "type" : {
+            "type" : "integer"
+          }
+        }
+      },
+      "Payment" : {
+        "id" : "Payment",
+        "type" : "object",
+        "properties" : {
+          "amount" : {
+            "type" : "number"
+          },
+          "dateCreated" : {
+            "type" : "string",
+            "format" : "date-time"
+          },
+          "imageUrl" : {
+            "type" : "string"
+          },
+          "key" : {
+            "$ref" : "Key"
+          },
+          "payer" : {
+            "$ref" : "Key"
+          }
+        }
+      }
+    },
+    "methods" : {
+      "UserEndpoint.listMemberships" : {
+        "response" : {
+          "$ref" : "GroupMembershipCollection"
+        }
+      },
+      "UserEndpoint.getMe" : {
+        "response" : {
+          "$ref" : "AppUser"
+        }
+      },
+      "UserEndpoint.insertUser" : {
+        "response" : {
+          "$ref" : "AppUser"
+        }
+      },
+      "UserEndpoint.unregisterGCM" : {
+      },
+      "UserEndpoint.registerGCM" : {
+      }
+    }
+  }
+}

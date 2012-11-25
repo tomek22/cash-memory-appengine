@@ -1,0 +1,316 @@
+{
+ "kind": "discovery#rpcDescription",
+ "etag": "\"a3GBuXuTtUYW9BV1SIieU5LiL7w/3lfjEF9U_ru_ObPKjM2OqMuKsn8\"",
+ "discoveryVersion": "v1",
+ "id": "userendpoint:v1",
+ "name": "userendpoint",
+ "version": "v1",
+ "description": "This is an API",
+ "icons": {
+  "x16": "http://www.google.com/images/icons/product/search-16.gif",
+  "x32": "http://www.google.com/images/icons/product/search-32.gif"
+ },
+ "protocol": "rpc",
+ "rootUrl": "https://cash-memory.appspot.com/_ah/api/",
+ "rpcUrl": "https://cash-memory.appspot.com/_ah/api/rpc",
+ "rpcPath": "/_ah/api/rpc",
+ "parameters": {
+  "alt": {
+   "type": "string",
+   "description": "Data format for the response.",
+   "default": "json",
+   "enum": [
+    "json"
+   ],
+   "enumDescriptions": [
+    "Responses with Content-Type of application/json"
+   ],
+   "location": "query"
+  },
+  "fields": {
+   "type": "string",
+   "description": "Selector specifying which fields to include in a partial response.",
+   "location": "query"
+  },
+  "key": {
+   "type": "string",
+   "description": "API key. Your API key identifies your project and provides you with API access, quota, and reports. Required unless you provide an OAuth 2.0 token.",
+   "location": "query"
+  },
+  "oauth_token": {
+   "type": "string",
+   "description": "OAuth 2.0 token for the current user.",
+   "location": "query"
+  },
+  "prettyPrint": {
+   "type": "boolean",
+   "description": "Returns response with indentations and line breaks.",
+   "default": "true",
+   "location": "query"
+  },
+  "quotaUser": {
+   "type": "string",
+   "description": "Available to use for quota purposes for server-side applications. Can be any arbitrary string assigned to a user, but should not exceed 40 characters. Overrides userIp if both are provided.",
+   "location": "query"
+  },
+  "userIp": {
+   "type": "string",
+   "description": "IP address of the site where the request originates. Use this if you want to enforce per-user limits.",
+   "location": "query"
+  }
+ },
+ "schemas": {
+  "AppUser": {
+   "id": "AppUser",
+   "type": "object",
+   "properties": {
+    "currency": {
+     "type": "string"
+    },
+    "dateCreated": {
+     "type": "string",
+     "format": "date-time"
+    },
+    "deviceRegistrationID": {
+     "type": "string"
+    },
+    "email": {
+     "type": "string"
+    },
+    "expenses": {
+     "type": "array",
+     "items": {
+      "$ref": "Expense"
+     }
+    },
+    "key": {
+     "$ref": "Key"
+    }
+   }
+  },
+  "Expense": {
+   "id": "Expense",
+   "type": "object",
+   "properties": {
+    "amount": {
+     "type": "number",
+     "format": "double"
+    },
+    "creator": {
+     "$ref": "Key"
+    },
+    "dateCreated": {
+     "type": "string",
+     "format": "date-time"
+    },
+    "history": {
+     "type": "array",
+     "items": {
+      "$ref": "ExpenseState"
+     }
+    },
+    "key": {
+     "$ref": "Key"
+    },
+    "name": {
+     "type": "string"
+    },
+    "payments": {
+     "type": "array",
+     "items": {
+      "$ref": "Payment"
+     }
+    },
+    "template": {
+     "$ref": "Key"
+    }
+   }
+  },
+  "ExpenseState": {
+   "id": "ExpenseState",
+   "type": "object",
+   "properties": {
+    "creator": {
+     "$ref": "Key"
+    },
+    "dateCreated": {
+     "type": "string",
+     "format": "date-time"
+    },
+    "key": {
+     "$ref": "Key"
+    },
+    "revoking": {
+     "type": "boolean"
+    },
+    "type": {
+     "type": "integer",
+     "format": "int32"
+    }
+   }
+  },
+  "GroupMembership": {
+   "id": "GroupMembership",
+   "type": "object",
+   "properties": {
+    "appUser": {
+     "$ref": "Key"
+    },
+    "balance": {
+     "type": "number",
+     "format": "double"
+    },
+    "dateCreated": {
+     "type": "string",
+     "format": "date-time"
+    },
+    "key": {
+     "$ref": "Key"
+    }
+   }
+  },
+  "GroupMembershipCollection": {
+   "id": "GroupMembershipCollection",
+   "type": "object",
+   "properties": {
+    "items": {
+     "type": "array",
+     "items": {
+      "$ref": "GroupMembership"
+     }
+    }
+   }
+  },
+  "Key": {
+   "id": "Key",
+   "type": "object",
+   "properties": {
+    "complete": {
+     "type": "boolean"
+    },
+    "id": {
+     "type": "string",
+     "format": "int64"
+    },
+    "kind": {
+     "type": "string"
+    },
+    "name": {
+     "type": "string"
+    },
+    "namespace": {
+     "type": "string"
+    },
+    "parent": {
+     "$ref": "Key"
+    }
+   }
+  },
+  "Payment": {
+   "id": "Payment",
+   "type": "object",
+   "properties": {
+    "amount": {
+     "type": "number",
+     "format": "double"
+    },
+    "dateCreated": {
+     "type": "string",
+     "format": "date-time"
+    },
+    "imageUrl": {
+     "type": "string"
+    },
+    "key": {
+     "$ref": "Key"
+    },
+    "payer": {
+     "$ref": "Key"
+    }
+   }
+  }
+ },
+ "methods": {
+  "userendpoint.gcm.register": {
+   "id": "userendpoint.gcm.register",
+   "parameters": {
+    "devReg": {
+     "type": "string",
+     "required": true
+    },
+    "email": {
+     "type": "string",
+     "required": true
+    }
+   },
+   "parameterOrder": [
+    "devReg",
+    "email"
+   ]
+  },
+  "userendpoint.gcm.unregister": {
+   "id": "userendpoint.gcm.unregister",
+   "parameters": {
+    "email": {
+     "type": "string",
+     "required": true
+    }
+   },
+   "parameterOrder": [
+    "email"
+   ]
+  },
+  "userendpoint.user.get": {
+   "id": "userendpoint.user.get",
+   "allowGet": true,
+   "parameters": {
+    "email": {
+     "type": "string",
+     "required": true
+    }
+   },
+   "parameterOrder": [
+    "email"
+   ],
+   "returns": {
+    "$ref": "AppUser"
+   }
+  },
+  "userendpoint.user.insert": {
+   "id": "userendpoint.user.insert",
+   "parameters": {
+    "currency": {
+     "type": "string",
+     "required": true
+    },
+    "email": {
+     "type": "string",
+     "required": true
+    }
+   },
+   "parameterOrder": [
+    "currency",
+    "email"
+   ],
+   "returns": {
+    "$ref": "AppUser"
+   }
+  },
+  "userendpoint.user.memberships": {
+   "id": "userendpoint.user.memberships",
+   "allowGet": true,
+   "parameters": {
+    "email": {
+     "type": "string",
+     "required": true
+    }
+   },
+   "parameterOrder": [
+    "email"
+   ],
+   "returns": {
+    "$ref": "GroupMembershipCollection"
+   }
+  }
+ }
+}

@@ -5,7 +5,7 @@
   <servlet-class>com.google.api.server.spi.SystemServiceServlet</servlet-class>
   <init-param>
    <param-name>services</param-name>
-   <param-value>hr.punintended.cashmemory.DeviceInfoEndpoint</param-value>
+   <param-value>hr.punintended.cashmemory.gce.UserEndpoint,hr.punintended.cashmemory.gce.GroupEndpoint</param-value>
   </init-param>
  </servlet>
  <servlet-mapping>
