@@ -67,7 +67,7 @@ public class UserEndpoint {
       AppUser appUser = appUserDAO.findByEmail(email);
       if (appUser == null)
         throw new ServiceException(404, "User not found");
-      appUser.setDeviceRegistrationID(deviceRegistrationId);
+      appUser.setDeviceRegistrationId(deviceRegistrationId);
       appUserDAO.update(appUser);
       appUserDAO.commitTransaction();
     } finally {

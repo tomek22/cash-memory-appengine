@@ -200,7 +200,7 @@
             "type" : "string",
             "format" : "date-time"
           },
-          "deviceRegistrationID" : {
+          "deviceRegistrationId" : {
             "type" : "string"
           },
           "email" : {

@@ -7,7 +7,7 @@ public class AppUser extends ExpenseContainer {
 
   private String email;
 
-  private String deviceRegistrationID;
+  private String deviceRegistrationId;
 
   public AppUser(String email, String currency) {
     super(currency);
@@ -22,12 +22,12 @@ public class AppUser extends ExpenseContainer {
     this.email = email;
   }
 
-  public String getDeviceRegistrationID() {
-    return deviceRegistrationID;
+  public String getDeviceRegistrationId() {
+    return deviceRegistrationId;
   }
 
-  public void setDeviceRegistrationID(String deviceRegistrationID) {
-    this.deviceRegistrationID = deviceRegistrationID;
+  public void setDeviceRegistrationId(String deviceRegistrationId) {
+    this.deviceRegistrationId = deviceRegistrationId;
   }
 
 }
