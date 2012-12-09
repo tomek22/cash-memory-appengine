@@ -1,76 +1,42 @@
 package hr.punintended.cashmemory.domain;
 
-import java.util.List;
+import lombok.Getter;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.OneToMany;
-
-import com.google.appengine.api.datastore.Key;
+import com.googlecode.objectify.Key;
+import com.googlecode.objectify.annotation.Entity;
+import com.googlecode.objectify.annotation.Parent;
 
 @Entity
-public class Expense extends AbstractEntity {
+public class Expense extends DefaultAbstractEntity {
 
+  @Parent
+  @Getter
+  private Key<ExpenseGroup> group;
+
+  @Getter
+  private Key<AppUser> creator;
+
+  @Getter
   private String name;
 
-  private Key template;
+  @Getter
+  private int amount;
 
-  private Key creator;
-
-  private Double amount;
-
-  @OneToMany(cascade = CascadeType.ALL)
-  private List<ExpenseState> history;
-
-  @OneToMany(cascade = CascadeType.ALL)
-  private List<Payment> payments;
-
-  public String getName() {
-    return name;
-  }
-
-  public void setName(String name) {
+  public Expense(Key<ExpenseGroup> group, int amount, String name,
+      Key<AppUser> creator) {
+    super();
+    this.group = group;
     this.name = name;
-  }
-
-  public Key getTemplate() {
-    return template;
-  }
-
-  public void setTemplate(Key template) {
-    this.template = template;
-  }
-
-  public Key getCreator() {
-    return creator;
-  }
-
-  public void setCreator(Key creator) {
+    this.amount = amount;
     this.creator = creator;
   }
 
-  public Double getAmount() {
-    return amount;
+  public Expense(Key<ExpenseGroup> group, int amount, String name) {
+    this(group, amount, name, null);
   }
 
-  public void setAmount(Double amount) {
-    this.amount = amount;
-  }
-
-  public List<ExpenseState> getHistory() {
-    return history;
-  }
-
-  public void setHistory(List<ExpenseState> history) {
-    this.history = history;
-  }
-
-  public List<Payment> getPayments() {
-    return payments;
-  }
-
-  public void setPayments(List<Payment> payments) {
-    this.payments = payments;
+  public Expense(Key<ExpenseGroup> group, int amount) {
+    this(group, amount, null);
   }
 
 }

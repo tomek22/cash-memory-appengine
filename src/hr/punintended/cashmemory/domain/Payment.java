@@ -1,40 +1,37 @@
 package hr.punintended.cashmemory.domain;
 
-import javax.persistence.Entity;
+import lombok.Getter;
 
-import com.google.appengine.api.datastore.Key;
+import com.googlecode.objectify.Key;
+import com.googlecode.objectify.annotation.Entity;
+import com.googlecode.objectify.annotation.Parent;
 
 @Entity
-public class Payment extends AbstractEntity {
+public class Payment extends DefaultAbstractEntity {
 
-  private Key payer;
+  @Parent
+  private Key<Expense> expense;
 
-  private Double amount;
+  @Getter
+  private Key<AppUser> payer;
 
+  @Getter
+  private double amount;
+
+  @Getter
   private String imageUrl;
 
-  public Key getPayer() {
-    return payer;
-  }
-
-  public void setPayer(Key payer) {
+  public Payment(Key<Expense> expense, Key<AppUser> payer, double amount,
+      String imageUrl) {
+    super();
+    this.expense = expense;
     this.payer = payer;
-  }
-
-  public Double getAmount() {
-    return amount;
-  }
-
-  public void setAmount(Double amount) {
     this.amount = amount;
-  }
-
-  public String getImageUrl() {
-    return imageUrl;
-  }
-
-  public void setImageUrl(String imageUrl) {
     this.imageUrl = imageUrl;
+  }
+
+  public Payment(Key<Expense> expense, Key<AppUser> payer, double amount) {
+    this(expense, payer, amount, null);
   }
 
 }

@@ -1,33 +1,25 @@
 package hr.punintended.cashmemory.domain;
 
-import javax.persistence.Entity;
+import lombok.Getter;
+import lombok.Setter;
+
+import com.googlecode.objectify.annotation.Entity;
+import com.googlecode.objectify.annotation.Id;
 
 @Entity
-public class AppUser extends ExpenseContainer {
+public class AppUser extends TimeAwareAbstractEntity {
 
+  @Id
+  @Getter
   private String email;
 
+  @Getter
+  @Setter
   private String deviceRegistrationId;
 
-  public AppUser(String email, String currency) {
-    super(currency);
+  public AppUser(String email) {
+    super();
     this.email = email;
-  }
-
-  public String getEmail() {
-    return email;
-  }
-
-  public void setEmail(String email) {
-    this.email = email;
-  }
-
-  public String getDeviceRegistrationId() {
-    return deviceRegistrationId;
-  }
-
-  public void setDeviceRegistrationId(String deviceRegistrationId) {
-    this.deviceRegistrationId = deviceRegistrationId;
   }
 
 }

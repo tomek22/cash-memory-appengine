@@ -1,35 +1,35 @@
 package hr.punintended.cashmemory.domain;
 
-import javax.persistence.Entity;
+import lombok.Getter;
 
-import com.google.appengine.api.datastore.Key;
+import com.googlecode.objectify.Key;
+import com.googlecode.objectify.annotation.Entity;
+import com.googlecode.objectify.annotation.Id;
+import com.googlecode.objectify.annotation.Parent;
 
 @Entity
-public class GroupMembership extends AbstractEntity {
+public class GroupMembership extends TimeAwareAbstractEntity {
 
-  private Key appUser;
+  @Parent
+  @Getter
+  private Key<ExpenseGroup> group;
 
-  private Double balance;
+  @Id
+  @Getter
+  private String appUserId;
 
-  public GroupMembership(Key appUser) {
-    this.appUser = appUser;
+  @Getter
+  private double balance;
+
+  public GroupMembership(Key<ExpenseGroup> group, String appUserId) {
+    super();
+    this.group = group;
+    this.appUserId = appUserId;
     this.balance = 0.d;
   }
 
-  public Key getAppUser() {
-    return appUser;
-  }
-
-  public void setAppUser(Key appUser) {
-    this.appUser = appUser;
-  }
-
-  public Double getBalance() {
-    return balance;
-  }
-
-  public void setBalance(Double balance) {
-    this.balance = balance;
+  public double changeBalance(double change) {
+    return this.balance += change;
   }
 
 }

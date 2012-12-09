@@ -1,45 +1,46 @@
 package hr.punintended.cashmemory.domain;
 
-import javax.persistence.Entity;
+import lombok.Getter;
+import lombok.Setter;
 
-import com.google.appengine.api.datastore.Key;
+import com.googlecode.objectify.Key;
+import com.googlecode.objectify.annotation.Entity;
+import com.googlecode.objectify.annotation.Parent;
 
 @Entity
-public class ExpenseState extends AbstractEntity {
+public class ExpenseState extends DefaultAbstractEntity {
 
-  public final static Integer UNINITIALIZED = 0;
-  public final static Integer INITIALIZED = 1;
-  public final static Integer CLAIMED = 2;
-  public final static Integer CLOSED = 3;
+  public static enum Type {
+    UNINITIALIZED, INITIALIZED, CLAIMED, CLOSED
+  };
 
-  private Integer type;
+  @Parent
+  private Key<Expense> expense;
 
-  private Boolean revoking;
+  @Getter
+  private Type type;
 
-  private Key creator;
+  @Getter
+  private Key<AppUser> creator;
 
-  public Integer getType() {
-    return type;
-  }
+  @Getter @Setter
+  private boolean revoking;
 
-  public void setType(Integer type) {
+  public ExpenseState(Key<Expense> expense, Type type, Key<AppUser> creator,
+      boolean revoking) {
+    super();
+    this.expense = expense;
     this.type = type;
-  }
-
-  public Boolean getRevoking() {
-    return revoking;
-  }
-
-  public void setRevoking(Boolean revoking) {
+    this.creator = creator;
     this.revoking = revoking;
   }
 
-  public Key getCreator() {
-    return creator;
+  public ExpenseState(Key<Expense> expense, Type type, Key<AppUser> creator) {
+    this(expense, type, creator, false);
   }
 
-  public void setCreator(Key creator) {
-    this.creator = creator;
+  public ExpenseState(Key<Expense> expense, Type type) {
+    this(expense, type, null);
   }
 
 }
