@@ -1,6 +1,7 @@
 package hr.punintended.cashmemory.gce;
 
 import static com.googlecode.objectify.ObjectifyService.ofy;
+import hr.punintended.cashmemory.conf.Bootstrap;
 import hr.punintended.cashmemory.domain.AppUser;
 import hr.punintended.cashmemory.domain.ExpenseGroup;
 import hr.punintended.cashmemory.domain.GroupMembership;
@@ -21,6 +22,10 @@ import com.googlecode.objectify.Key;
 )
 public class CashEndpoint {
 
+  static {
+    Bootstrap.init();
+  }
+
   private AuthorizationService authorizationService = new AuthorizationService();
 
   // TODO: @Named("email") String -> User
@@ -28,6 +33,10 @@ public class CashEndpoint {
   public ExpenseGroup insertGroup(ExpenseGroup group,
       @Named("email") String user) throws OAuthRequestException {
     Key<AppUser> appUserKey = authorizationService.getAppUserKey(user);
+
+    // enforce rules...
+    group.setCreator(appUserKey);
+    group.setAdHoc(false);
 
     Key<ExpenseGroup> expenseGroupKey = ofy().save().entity(group).now();
     ofy().save()
@@ -57,13 +66,6 @@ public class CashEndpoint {
   public AppUser getMe(@Named("email") String user)
       throws OAuthRequestException {
     return authorizationService.getAppUser(user);
-  }
-
-  // TODO: @Named("email") String -> User
-  @ApiMethod(name = "user.insert", path = "user", httpMethod = "POST")
-  public AppUser insertUser(@Named("currency") String currency,
-      @Named("email") String user) throws OAuthRequestException {
-    return authorizationService.registerAppUser(user);
   }
 
   // TODO: @Named("email") String -> User
