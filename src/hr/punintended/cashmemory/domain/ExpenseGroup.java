@@ -20,10 +20,6 @@ public class ExpenseGroup extends DefaultAbstractEntity {
   @Getter
   private String name;
 
-  @NonNull
-  @Getter
-  private String currency;
-
   @Getter
   @Setter
   private Key<AppUser> creator;

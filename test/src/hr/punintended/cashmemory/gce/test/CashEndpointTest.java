@@ -1,7 +1,11 @@
 package hr.punintended.cashmemory.gce.test;
 
-import static com.google.appengine.api.datastore.FetchOptions.Builder.withLimit;
+import static hr.punintended.cashmemory.test.util.TestUtils.assertCount;
+import static hr.punintended.cashmemory.test.util.TestUtils.assertEmpty;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import hr.punintended.cashmemory.domain.AppUser;
 import hr.punintended.cashmemory.domain.ExpenseGroup;
 import hr.punintended.cashmemory.gce.CashEndpoint;
 
@@ -9,18 +13,19 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.google.appengine.api.datastore.DatastoreService;
-import com.google.appengine.api.datastore.DatastoreServiceFactory;
-import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.oauth.OAuthRequestException;
+import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestConfig;
 import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
-import com.google.appengine.tools.development.testing.LocalUserServiceTestConfig;
 
 public class CashEndpointTest {
 
   private final LocalServiceTestHelper helper = new LocalServiceTestHelper(
-      new LocalUserServiceTestConfig());
-  private DatastoreService ds;
+      new LocalDatastoreServiceTestConfig());
+
+//  private final LocalServiceTestHelper helper =
+//      new LocalServiceTestHelper(new LocalDatastoreServiceTestConfig()
+//          .setDefaultHighRepJobPolicyUnappliedJobPercentage(100));
+
   private String user;
   // private User user;
 
@@ -29,7 +34,6 @@ public class CashEndpointTest {
   @Before
   public void setUp() {
     helper.setUp();
-    ds = DatastoreServiceFactory.getDatastoreService();
     user = "user@cashmemory.hr";
     // user = new User("user@cashmemory.hr", "cashmemory.hr");
     cashEndpoint = new CashEndpoint();
@@ -42,13 +46,17 @@ public class CashEndpointTest {
 
   @Test
   public void insertGroupTest() throws OAuthRequestException {
-    assertEquals(0,
-        ds.prepare(new Query("ExpenseGroup")).countEntities(withLimit(1)));
-    cashEndpoint.insertGroup(new ExpenseGroup("Grupa", "KN"), user);
-    assertEquals(1,
-        ds.prepare(new Query("AppUser")).countEntities(withLimit(1)));
-    assertEquals(1,
-        ds.prepare(new Query("ExpenseGroup")).countEntities(withLimit(1)));
-
+    assertEmpty(AppUser.class);
+    assertEmpty(ExpenseGroup.class);
+    ExpenseGroup expenseGroup = cashEndpoint.insertGroup(new ExpenseGroup(
+        "Grupa"), user);
+    assertNotNull(expenseGroup.getId());
+    assertNotNull(expenseGroup.getDateCreated());
+    assertEquals(expenseGroup.getLastUpdated(), expenseGroup.getDateCreated());
+    assertEquals("Grupa", expenseGroup.getName());
+    assertEquals(user, expenseGroup.getCreator().getName());
+    assertFalse(expenseGroup.isAdHoc());
+    assertCount(AppUser.class, 1);
+    assertCount(AppUser.class, 1);
   }
 }

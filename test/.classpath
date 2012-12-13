@@ -9,5 +9,6 @@
 	<classpathentry kind="lib" path="/usr/share/eclipse/plugins/com.google.appengine.eclipse.sdkbundle_1.7.3/appengine-java-sdk-1.7.3/lib/impl/appengine-api-labs.jar"/>
 	<classpathentry kind="lib" path="/usr/share/eclipse/plugins/com.google.appengine.eclipse.sdkbundle_1.7.3/appengine-java-sdk-1.7.3/lib/impl/appengine-api.jar"/>
 	<classpathentry kind="lib" path="/usr/share/eclipse/plugins/com.google.appengine.eclipse.sdkbundle_1.7.3/appengine-java-sdk-1.7.3/lib/testing/appengine-testing.jar"/>
+	<classpathentry kind="lib" path="/cash-memory-appengine/war/WEB-INF/lib/objectify-4.0b1.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

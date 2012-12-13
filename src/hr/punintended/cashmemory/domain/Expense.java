@@ -25,6 +25,10 @@ public class Expense extends DefaultAbstractEntity {
   @Getter
   private int amount;
 
+  @NonNull
+  @Getter
+  private String currency;
+
   @Getter
   private Key<AppUser> creator;
 

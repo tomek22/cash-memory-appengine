@@ -28,6 +28,10 @@ public class Payment extends DefaultAbstractEntity {
   @NonNull
   private double amount;
 
+  @NonNull
+  @Getter
+  private String currency;
+
   @Getter
   private String imageUrl;
 
