@@ -28,9 +28,9 @@ public class GroupMembership extends TimeAwareAbstractEntity {
   private String appUserId;
 
   @Getter
-  private double balance = 0.d;
+  private int balance = 0;
 
-  public double changeBalance(double change) {
+  public int changeBalance(int change) {
     return this.balance += change;
   }
 

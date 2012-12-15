@@ -26,7 +26,7 @@ public class Payment extends DefaultAbstractEntity {
 
   @Getter
   @NonNull
-  private double amount;
+  private int amount;
 
   @NonNull
   @Getter
