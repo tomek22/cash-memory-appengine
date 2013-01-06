@@ -22,8 +22,8 @@ public class TestUtils {
   }
 
   public static final void assertCount(Class<?> entityClass,
-      Object objectifyEntity, int size) {
-    assertCount(entityClass, getRawKey(objectifyEntity), size);
+      Object objectifyParent, int size) {
+    assertCount(entityClass, getRawKey(objectifyParent), size);
   }
 
   public static final void assertCount(Class<?> entityClass, int size) {
@@ -42,6 +42,10 @@ public class TestUtils {
     return (List<Entity>) ds.prepare(query).asList(withLimit(size));
   }
 
+  public static final List<Entity> getEntities(Class<?> entityClass, Object objectifyParent, int size) {
+    return getEntities(entityClass, getRawKey(objectifyParent), size);
+  }
+
   public static final List<Entity> getEntities(Class<Entity> entityClass,
       int size) {
     return getEntities(entityClass, null, size);
@@ -52,8 +56,8 @@ public class TestUtils {
   }
 
   public static final Entity getFirstEntity(Class<?> entityClass,
-      Object objectifyEntity) {
-    return getFirstEntity(entityClass, getRawKey(objectifyEntity));
+      Object objectifyParent) {
+    return getFirstEntity(entityClass, getRawKey(objectifyParent));
   }
 
   public static final Entity getFirstEntity(Class<?> entityClass) {
